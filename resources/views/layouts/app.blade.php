@@ -1,71 +1,55 @@
-<!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SiJati Dashboard</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <style>
-        .sidebar {
-            width: 250px;
-            height: 100vh;
-            position: fixed;
-            background: #f8f9fa;
-            padding: 20px;
-        }
-
-        .sidebar a {
-            text-decoration: none;
-            color: #333;
-            display: block;
-            padding: 10px;
-            border-radius: 5px;
-        }
-
-        .sidebar a:hover,
-        .sidebar .active {
-            background: #e0e0e0;
-        }
-    </style>
+    <title>Admin Dashboard</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 
+<body class="bg-gray-100">
+    <div x-data="{ sidebarOpen: true }" class="flex h-screen">
+        <!-- Sidebar -->
+        <aside :class="sidebarOpen ? 'w-64' : 'w-20'"
+               class="bg-blue-800 text-white h-full transition-all duration-300 p-5">
+            <h1 class="text-xl font-bold mb-5">Sijati Dashboard</h1>
 
-<body>
-    <div class="d-flex">
-        <div class="sidebar">
-            <h4>Si Jati</h4>
-            <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">Dashboard</a>
+            <button @click="sidebarOpen = !sidebarOpen" class="md:hidden p-2 bg-blue-600 text-white rounded">
+                ☰
+            </button>
 
-            <a href="#" class="mt-3">Product</a>
-            <a href="{{ route('dashboard.products.produk') }}"
-                class="ms-3 {{ request()->routeIs('dashboard.products') ? 'active' : '' }}">Produk</a>
-            <a href="#" class="ms-3">Bahan</a>
+            <nav>
+                <ul>
+                    <li class="mb-2">
+                        <a href="{{ route('dashboard.index') }}" class="block p-2 rounded hover:bg-blue-600">Dashboard</a>
+                    </li>
 
-            <a href="#manufacturingMenu" data-bs-toggle="collapse" class="mt-3 d-block">Manufacturing</a>
-            <div id="manufacturingMenu" class="collapse {{ request()->is('dashboard/manufacturing*') ? 'show' : '' }}">
-                <a href="{{ route('dashboard.manufacturing') }}"
-                    class="ms-3 {{ request()->routeIs('dashboard.manufacturing') ? 'active' : '' }}">Overview</a>
-                <a href="{{ route('dashboard.manufacturing.vendor') }}"
-                    class="ms-3 {{ request()->routeIs('dashboard.manufacturing.vendor') ? 'active' : '' }}">Vendor</a>
-                <a href="{{ route('dashboard.manufacturing.bill_of_materials') }}"
-                    class="ms-3 {{ request()->routeIs('dashboard.manufacturing.bill_of_materials') ? 'active' : '' }}">Bill
-                    of Materials</a>
-            </div>
+                    <!-- Dropdown Manufacturing -->
+                    <li class="mb-2" x-data="{ open: false }">
+                        <button @click="open = !open" class="w-full flex items-center justify-between p-2 rounded hover:bg-blue-600">
+                            Manufacturing
+                            <span x-show="!open">▼</span>
+                            <span x-show="open">▲</span>
+                        </button>
+                        <ul x-show="open" x-transition class="pl-4 mt-2 space-y-1">
+                            <li><a href="{{ route('dashboard.manufacturing') }}" class="block p-2 rounded hover:bg-blue-500">Manufacturing</a></li>
+                            <li><a href="{{ route('dashboard.vendor') }}" class="block p-2 rounded hover:bg-blue-500">Vendor</a></li>
+                            <li><a href="{{ route('dashboard.material') }}" class="block p-2 rounded hover:bg-blue-500">Material</a></li>
+                        </ul>
+                    </li>
 
-            <a href="{{ route('dashboard.purchasing') }}"
-                class="mt-3 {{ request()->routeIs('dashboard.purchasing') ? 'active' : '' }}">Purchasing</a>
-            <a href="{{ route('dashboard.sales') }}"
-                class="mt-3 {{ request()->routeIs('dashboard.sales') ? 'active' : '' }}">Sales</a>
-        </div>
+                    <li class="mb-2"><a href="{{ route('dashboard.products') }}" class="block p-2 rounded hover:bg-blue-600">Products</a></li>
+                    <li class="mb-2"><a href="{{ route('dashboard.purchasing') }}" class="block p-2 rounded hover:bg-blue-600">Purchasing</a></li>
+                    <li class="mb-2"><a href="{{ route('dashboard.sales') }}" class="block p-2 rounded hover:bg-blue-600">Sales</a></li>
+                </ul>
+            </nav>
+        </aside>
 
-
-        <div class="content p-4" style="margin-left: 250px; width: 100%;">
+        <!-- Content -->
+        <main class="flex-1 p-6">
             @yield('content')
-        </div>
+        </main>
     </div>
 </body>
-
-</html>

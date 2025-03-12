@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-
     public function index()
     {
         return view("dashboard.index");
@@ -16,14 +15,20 @@ class DashboardController extends Controller
     {
         return view("dashboard/manufacturing.manufacturing");
     }
+
     public function vendor()
     {
-        return view('dashboard/manufacturing.vendor');
+        return view("dashboard/manufacturing.vendor");
     }
 
-    public function billOfMaterials()
+    public function material()
     {
-        return view('dashboard/manufacturing.bill_of_materials');
+        return view("dashboard/manufacturing.material");
+    }
+
+    public function bom(){
+
+        return view("dashboard/manufacturing.bill_of_materials");
     }
 
     public function products()
@@ -33,17 +38,11 @@ class DashboardController extends Controller
 
     public function purchasing()
     {
-        return view('dashboard.purchasing');
+        return view("dashboard.purchasing");
     }
 
     public function sales()
     {
-
-        return view('dashboard.sales');
-    }
-
-    public function material()
-    {
-        return view('dashboard/manufacturing/manufacturing.material');
+        return view("dashboard.sales");
     }
 }

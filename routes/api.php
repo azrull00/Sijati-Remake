@@ -40,11 +40,14 @@ Route::delete('customer/{id}', [CustomerController::class, 'delete']);
 
 
 // Route ProdukController
-Route::get('produk', [ProdukController::class, 'index']);
-Route::get('produk/{id}', [ProdukController::class, 'show']);
-Route::post('produk', [ProdukController::class, 'store']);
-Route::put('produk/{id}', [ProdukController::class, 'update']);
-Route::delete('produk/{id}', [ProdukController::class, 'hapus']);
+
+Route::get('/produk', [ProdukController::class, 'index']);
+Route::get('/produk/{id}', [ProdukController::class, 'show']);
+Route::post('/produk', [ProdukController::class, 'store']);
+Route::put('/produk/{id}', [ProdukController::class, 'update']);
+Route::delete('/produk/{id}', [ProdukController::class, 'hapus']);
+
+
 
 // Route PurchaseOrderController
 Route::get('purchase_order', [PurchaseOrderController::class, 'index']);
